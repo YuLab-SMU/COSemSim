@@ -1,0 +1,22 @@
+Package: COSemSim
+Type: Package
+Title: calculate semantic similarity for cell types
+Version: 0.1.0
+Author: Pingfan Guo
+Maintainer: Pingfan Guo <1178431277@qq.com>
+Description: This package is used to calculate semantic similarity.
+    Package measures similarity value for cell types, genes and proteins
+    with five methods : "Wang", "Resnik", "Rel", "TCSS", "Jiang", "Lin",
+    And four combine methods to combining multiple annotations in different ways.
+Depends:
+    R (>= 3.5.0)
+Imports:
+    GOSemSim(>= 2.0.0),
+    utils,
+    stats,
+    methods
+Suggests:
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
