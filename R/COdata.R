@@ -3,7 +3,6 @@
 #' @param keytype "Symbol" or "PRO"
 #' @param computeIC logical, TRUE/FALSE
 #' @param processTCSS logical, TRUE/FALSE, only necessary when TCSS method used
-#' @param cutoff numeric, positive number
 #' @importClassesFrom GOSemSim GOSemSimDATA
 #' @importFrom methods new
 #' @importFrom stats na.omit
@@ -13,10 +12,10 @@
 #'
 #' @examples
 #' semdata <- COdata(keytype = "Symbol",
-#' computeIC = TRUE, processTCSS = TRUE, cutoff = NULL)
+#' computeIC = TRUE, processTCSS = TRUE)
 #'
 COdata <- function(keytype = "Symbol",
-                   computeIC=TRUE, processTCSS = TRUE, cutoff = NULL) {
+                   computeIC=TRUE, processTCSS = TRUE) {
 
   if (!exists(".COSemSimEnv")) .initial()
   .COSemSimEnv <- get(".COSemSimEnv", envir = .GlobalEnv)
@@ -40,7 +39,7 @@ COdata <- function(keytype = "Symbol",
     message("preparing IC data...")
     IC <- computeIC(anno, cellonto)
     if (processTCSS) {
-      tcssdata <- GOSemSim:::process_tcss(ont, IC = IC, cutoff = cutoff)
+      tcssdata <- process_tcss(ont, IC = IC, cellonto = cellonto)
     }
   }
 
