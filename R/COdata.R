@@ -1,7 +1,7 @@
 #' build annoData for semantic measurement
 #'
 #' @param keytype "Symbol" or "PRO"
-#' @param computeIC logical, TRUE/FALSE
+#' @param computeIC  one of "anno", "hyponym", "none". First two mean calculate IC based annotation or hyponym nodes. "none" means do not calculate IC data.
 #' @param processTCSS logical, TRUE/FALSE, only necessary when TCSS method used
 #' @importClassesFrom GOSemSim GOSemSimDATA
 #' @importFrom methods new
@@ -15,7 +15,7 @@
 #' computeIC = TRUE, processTCSS = TRUE)
 #'
 COdata <- function(keytype = "Symbol",
-                   computeIC=TRUE, processTCSS = TRUE) {
+                   computeIC="hyponym", processTCSS = TRUE) {
 
   if (!exists(".COSemSimEnv")) .initial()
   .COSemSimEnv <- get(".COSemSimEnv", envir = .GlobalEnv)
@@ -35,9 +35,20 @@ COdata <- function(keytype = "Symbol",
 
   ont <- "CO"
 
-  if (computeIC) {
+  COids <- cellonto[["id"]]
+  offspring <- cellonto[["offspring"]]
+
+  computeIC <- match.arg(computeIC, c("anno", "hyponym", "none"))
+
+  if (computeIC != "none") {
     message("preparing IC data...")
-    IC <- computeIC(anno, cellonto)
+
+    if (computeIC == "hyponym") {
+      IC <- computeIChyponym(COids = COids, offspring = offspring)
+    } else if (computeIC == "anno") {
+      IC <- computeICanno(anno = anno, COids = COids, offspring = offspring)
+    }
+
     if (processTCSS) {
       tcssdata <- process_tcss(ont, IC = IC, cellonto = cellonto)
     }
@@ -50,7 +61,7 @@ COdata <- function(keytype = "Symbol",
              metadata = as.data.frame(ontoProc::recognizedPredicates())
   )
 
-  if (computeIC) {
+  if (computeIC != "none") {
     res@IC <- IC
     if (processTCSS) {
       res@tcssdata <- tcssdata

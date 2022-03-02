@@ -1,14 +1,13 @@
-#' compute information content value for CO terms
+#' compute information content value for CO terms based on annotation data
 #'
 #' @param anno annotation about gene symbol or protein by cell terms
-#' @param cellonto child-parent relationship within cell terms
+#' @param COids all cell ontology ids
+#' @param offspring offspring nodes for each node
 #'
 #' @return named numeric vector
 #' @noRd
 #'
-computeIC <- function(anno, cellonto) {
-  #all CO ids
-  COids <- cellonto$id
+computeICanno <- function(anno, COids, offspring) {
 
   COcount <- table(anno$tag)
   #CO ids with annotations
@@ -20,8 +19,6 @@ computeIC <- function(anno, cellonto) {
   #frequency for all CO ids
   COcount <- c(COcount, m)
   #offspring do not include itself
-  offspring <- cellonto$offspring
-
   #calculate the cumulative frequency
   cnt <- COcount[COids] + unlist(lapply(COids, function(id) {
     sum(COcount[offspring[[id]]], na.rm = TRUE)
@@ -32,4 +29,22 @@ computeIC <- function(anno, cellonto) {
   IC <- -log(p)
 
   return(IC)
+}
+
+#' compute information content value for CO terms based on offspring data
+#'
+#' @param COids all cell ontology ids
+#' @param offspring offspring nodes for each node
+#'
+#' @return
+#' @noRd
+#'
+computeIChyponym <- function(COids, offspring) {
+
+  num <- length(COids)
+
+  IC <- lapply(COids, function(id) {
+    1 - (log(length(offspring[[id]]) + 1) / log(num))
+  })
+  unlist(IC)
 }
