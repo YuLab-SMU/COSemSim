@@ -32,7 +32,6 @@ exMatrixWithSS <- function(expression_matrix, ss_matrix,
   #reordered expression_matrix
   expression_matrix <- expression_matrix[, second_order]
 
-  #同一类细胞在一块，len是这些细胞分区的坐标
   #cells annotated with same cell type stay together, "len" seperates those cells.
   len <- match(unique(second_cells), second_cells)
   len <- c(len, length(second_cells) + 1)
