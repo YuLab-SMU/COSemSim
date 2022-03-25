@@ -54,3 +54,45 @@
 #' }
 #' @source \url{https://bioportal.bioontology.org/ontologies/CL/}
 "cellonto"
+
+
+#' HumanPrimaryCellAtlasData for cell type annotation
+#'
+#' A SummarizedExperiment as reference dataset
+#' celldex::HumanPrimaryCellAtlasData()
+#' 2021-05-18 version
+#'
+#' @format S4 object
+#'
+#' @source celldex::HumanPrimaryCellAtlasData()
+"hpca"
+
+#' example expression data
+#'
+#' A matrix with rows are genes, columns are cells.
+#' Human lung tissue with 59 cells and 3491 genes.
+#' Already pre-processed, and expression follows log-normal distribution.
+#' GSE52583
+#'
+#' @format matrix
+#' @source GSE52583
+"counts"
+
+#' Mouse lung tissue cell types markers from cellmarker database
+#' A list containing 97 cell types and their marker genes
+#' process: \dontrun{
+#' # download from cellmarker database http://bio-bigdata.hrbmu.edu.cn/CellMarker/
+#' markers <- read.table("cellmarker_database/Mouse_cell_markers.txt", header = T, sep = "\t", fileEncoding = "utf-8")
+#'
+#' markers_lung <- na.omit(markers[markers$tissueType == "Lung" & markers$speciesType == "Mouse", c("CellOntologyID", "cellMarker")])
+#'
+#' markers_lung$CellOntologyID <- sub("_", ":", markers_lung$CellOntologyID)
+#'
+#' marker_genes <- strsplit(as.vector(markers_lung$cellMarker), ", ")
+#' names(marker_genes) <- markers_lung$CellOntologyID
+#' }
+#'
+#'
+#' @format A list with 97 items
+#' @source \url{http://bio-bigdata.hrbmu.edu.cn/CellMarker/}
+"marker_genes"
