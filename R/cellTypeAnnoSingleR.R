@@ -7,7 +7,13 @@
 #' @export
 #'
 #' @examples
-cellTypeAnnoSingleR <- function(counts, ref = hpca.se) {
+cellTypeAnnoSingleR <- function(counts, ref = "hpca") {
+  #reference dataset
+  if (ref == "hpca") {
+    tryCatch(utils::data(list = "hpca", package = "COSemSim"))
+    ref <- get("hpca")
+    message("using HPCA as refrence dataset")
+  }
   # cell type annotation by SingleR
   pred <- SingleR::SingleR(test = counts, ref = ref, labels = ref$label.ont)
   # all annotated labels for cells
