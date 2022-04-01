@@ -1,15 +1,15 @@
 #' cell type annotation by SingleR
 #'
 #' @param counts expression matrix data, rows are genes, columns are cells.
-#' @param ref reference expression data, acquired by SingleR or celldex package. See ??SingleR::SingleR for details. Default data is HPCA data, inputting appropriate ref data is suggested.
+#' @param ref reference expression data, acquired by SingleR or celldex package. See ??SingleR::SingleR for details. Default value is NULL, will use HPCA data as reference (celldex::HumanPrimaryCellAtlasData()), inputting appropriate ref data is suggested.
 #'
 #' @return data.frame containing all annotated labels for counts
 #' @export
 #'
 #' @examples
-cellTypeAnnoSingleR <- function(counts, ref = "hpca") {
+cellTypeAnnoSingleR <- function(counts, ref = NULL) {
   #reference dataset
-  if (ref == "hpca") {
+  if (is.null(ref)) {
     tryCatch(utils::data(list = "hpca", package = "COSemSim"))
     ref <- get("hpca")
     message("using HPCA as refrence dataset")

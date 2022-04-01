@@ -21,7 +21,12 @@
 #' results <- cellTypeAnnoSCINA(counts, marker_genes)
 #'
 cellTypeAnnoSCINA <- function(counts, marker_genes,
-                              max_iter = 100, convergence_n = 10, convergence_rate = 0.999, sensitivity_cutoff = 0.9, rm_overlap = FALSE, allow_unknown = FALSE, log_file='SCINA.log') {
+                              max_iter = 100, convergence_n = 10,
+                              convergence_rate = 0.999,
+                              sensitivity_cutoff = 0.9,
+                              rm_overlap = FALSE,
+                              allow_unknown = FALSE,
+                              log_file='SCINA.log') {
 
   #first filter
   marker_filter1 <- lapply(marker_genes, function(e) intersect(e, rownames(counts)))
@@ -34,7 +39,13 @@ cellTypeAnnoSCINA <- function(counts, marker_genes,
   names(marker_filter2) <- names(marker_filter1)[match(marker_filter2, marker_filter1)]
 
   #use SCINA to annotate cell types for counts
-  result <- SCINA::SCINA(counts, marker_filter2, max_iter = max_iter, convergence_n = convergence_n, convergence_rate = convergence_rate, sensitivity_cutoff = sensitivity_cutoff, rm_overlap = rm_overlap, allow_unknown = allow_unknown, log_file = log_file)
+  result <- SCINA::SCINA(counts, marker_filter2,
+                         max_iter = max_iter, convergence_n = convergence_n,
+                         convergence_rate = convergence_rate,
+                         sensitivity_cutoff = sensitivity_cutoff,
+                         rm_overlap = rm_overlap,
+                         allow_unknown = allow_unknown,
+                         log_file = log_file)
   #cell types
   cellType <- result$cell_labels
   #cellonto stores cell ontology information
