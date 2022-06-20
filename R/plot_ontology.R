@@ -56,6 +56,8 @@ plot_ontology <- function(ontology = ontology,
   if (is.null(term_text) && "name" %in% names(ontology)) {
     term_text <- paste(terms,"\n", ontology[["name"]][terms])
   }
+  #to show the entir plot
+  par(mar = c(0, 0, 0, 0))
 
   # set term_sets and frequencies to NULL to dysfunction
   # set style = "filled", other possible options are not known for now
@@ -72,5 +74,9 @@ plot_ontology <- function(ontology = ontology,
                           style = "filled",
                           fixedsize = fixedsize,
                           shape = shape)
+  #reset to the default value
+  par(mar = c(5.1, 4.1, 4.1, 2.1))
+
+  print(p)
 
 }
